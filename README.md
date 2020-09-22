@@ -1,6 +1,6 @@
 # Get a Ref
 
-Build a product in 2 weeks challange!
+Build a product in 2 weeks challenge!
 
 ## Stack
 
