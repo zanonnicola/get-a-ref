@@ -16,6 +16,7 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
+    'plugin:cypress/recommended',
   ],
   settings: {
     react: {
@@ -26,8 +27,9 @@ module.exports = {
     browser: true,
     node: true,
     es6: true,
+    'cypress/globals': true,
   },
-  plugins: ['@typescript-eslint', 'react', 'prettier'],
+  plugins: ['@typescript-eslint', 'react', 'prettier', 'cypress'],
   rules: {
     'prettier/prettier': ['error', {}, { usePrettierrc: true }],
     'react/prop-types': 'off',
