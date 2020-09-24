@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 const Login = () => {
   const [loggedIn, setLoggedIn] = useState<any | boolean>(false);
-  const a = new Magic('pk_live_1F71F231F2E33A46');
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const a = new Magic('pk_live_1F71F231F2E33A46');
     const DIDT = await a.auth.loginWithMagicLink({ email: '' });
 
     const res = await fetch(`http://localhost:3000/api/user/login`, {
