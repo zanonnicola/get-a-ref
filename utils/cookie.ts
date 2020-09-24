@@ -10,7 +10,7 @@ export interface Cookie {
   sameSite: string;
 }
 
-export const cookie: CookieSerializeOptions = {
+export const cookieOptions: CookieSerializeOptions = {
   maxAge: 60 * 60 * 2, // 2 hours
   secure: process.env.NODE_ENV === 'production',
   path: '/',

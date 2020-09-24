@@ -1,7 +1,7 @@
 import { MagicUserMetadata } from '@magic-sdk/admin';
 import { serialize } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { encryptCookie, cookie } from '../../../utils/cookie';
+import { encryptCookie, cookieOptions } from '../../../utils/cookie';
 import { magic } from '../../../utils/magic';
 
 export interface LoginDTO {
@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<LoginD
     // TO DO: Check if we have the user in the DB otherwise create new one
 
     const token = await encryptCookie(userMetadata);
-    res.setHeader('Set-Cookie', serialize('auth', token, cookie));
+    res.setHeader('Set-Cookie', serialize('auth', token, cookieOptions));
 
     return res.json({ authorized: true, user: 'user' });
   } catch (error) {
