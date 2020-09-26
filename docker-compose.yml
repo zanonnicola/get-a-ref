@@ -1,0 +1,33 @@
+version: "3.1"
+services:
+  db:
+    image: "postgres:13"
+    container_name: "getaref_postgres"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - getaref_dbdata:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "8000:80"
+    restart: always
+
+volumes:
+  getaref_dbdata:
+  pgadmin:
