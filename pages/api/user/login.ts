@@ -3,6 +3,8 @@ import { serialize } from 'cookie';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { encryptCookie, cookieOptions } from '../../../utils/cookie';
 import { magic } from '../../../utils/magic';
+import { PrismaDB } from '../../../utils/prisma';
+import { randomUserName } from '../../../utils/random-username';
 
 export interface LoginDTO {
   authorized: boolean;
@@ -15,6 +17,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<LoginD
     return res.status(405).end();
   }
 
+  const db = new PrismaDB();
+
   try {
     const DIDT = magic.utils.parseAuthorizationHeader(req.headers.authorization);
     magic.token.validate(DIDT);
@@ -22,13 +26,32 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<LoginD
     const claim = magic.token.decode(DIDT)[1];
     const userMetadata: MagicUserMetadata = await magic.users.getMetadataByIssuer(claim.iss);
 
-    // TO DO: Check if we have the user in the DB otherwise create new one
+    if (!userMetadata.issuer || !userMetadata.email) {
+      return res.status(401).end();
+    }
+    let user = await db.getUser(userMetadata.issuer);
+
+    if (!user) {
+      user = await db.insertUser({
+        userIss: userMetadata.issuer,
+        email: userMetadata.email,
+        userName: randomUserName(),
+      });
+    }
 
     const token = await encryptCookie(userMetadata);
     res.setHeader('Set-Cookie', serialize('auth', token, cookieOptions));
 
-    return res.json({ authorized: true, user: 'user' });
+    return res.json({
+      authorized: true,
+      user: {
+        email: user.email,
+        userName: user.userName,
+      },
+    });
   } catch (error) {
     return res.status(401).end();
+  } finally {
+    await db.disconnect();
   }
 };

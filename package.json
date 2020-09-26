@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "prisma": "prisma studio"
   },
   "dependencies": {
     "@hapi/iron": "6.0.0",
