@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -11,22 +11,19 @@ generator client {
 }
 
 model User {
-  id        Int       @default(autoincrement()) @id
-  email     String    @unique
-  userIss   String    @unique
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-  active    Boolean   @default(true)
+  id        Int      @default(autoincrement()) @id
+  email     String   @unique
+  userIss   String   @unique
+  createdAt DateTime @default(now())
+  active    Boolean  @default(true)
   Profile   Profile
 }
 
 model Profile {
-  id        Int       @default(autoincrement()) @id
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-  userName  String?
-  userId    Int
+  id       Int     @default(autoincrement()) @id
+  user     User    @relation(fields: [userId], references: [id])
+  userName String?
+  userId   Int
 }
 
 // model Link {

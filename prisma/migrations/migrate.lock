@@ -1,3 +1,5 @@
 # Prisma Migrate lockfile v1
 
 20200926203920-init
+20200929163432-add-profile
+20200929164338-add-times
