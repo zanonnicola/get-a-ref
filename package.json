@@ -18,7 +18,9 @@
     "magic-sdk": "2.6.0",
     "next": "9.5.3",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "swr": "0.3.5",
+    "unstated-next": "1.1.0"
   },
   "devDependencies": {
     "@types/cookie": "0.4.0",

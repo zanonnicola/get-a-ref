@@ -29,14 +29,21 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<LoginD
     if (!userMetadata.issuer || !userMetadata.email) {
       return res.status(401).end();
     }
+
     let user = await db.getUser(userMetadata.issuer);
 
     if (!user) {
       user = await db.insertUser({
         userIss: userMetadata.issuer,
         email: userMetadata.email,
-        userName: randomUserName(),
       });
+
+      await db.insertProfile(
+        {
+          userName: randomUserName(),
+        },
+        user.id
+      );
     }
 
     const token = await encryptCookie(userMetadata);
@@ -46,7 +53,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<LoginD
       authorized: true,
       user: {
         email: user.email,
-        userName: user.userName,
       },
     });
   } catch (error) {

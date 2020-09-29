@@ -14,6 +14,7 @@ const Login = () => {
         Authorization: 'Bearer ' + DIDT,
       }),
     });
+
     const data = await res.json();
 
     const loggedIn = data.authorized ? data.user : false;

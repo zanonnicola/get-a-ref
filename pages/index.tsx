@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Get a Ref</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="robots" content="noindex" />
       </Head>
@@ -18,17 +18,8 @@ export default function Home() {
         </h1>
 
         <Link href="/login">Login</Link>
+        <Link href="/profile">Profile</Link>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by <img src="/vercel.svg" alt="Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   );
 }
