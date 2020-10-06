@@ -6,7 +6,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const a = new Magic('pk_live_1F71F231F2E33A46');
-    const DIDT = await a.auth.loginWithMagicLink({ email: '' });
+    const DIDT = await a.auth.loginWithMagicLink({ email: 'nicola.zanon86@gmail.com' });
 
     const res = await fetch(`http://localhost:3000/api/user/login`, {
       method: 'POST',

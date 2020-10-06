@@ -1,4 +1,4 @@
-import { PrismaClient, Profile, User } from '@prisma/client';
+import { Link, PrismaClient, Profile, User } from '@prisma/client';
 
 export type RequireOne<T, K extends keyof T> = {
   [X in Exclude<keyof T, K>]?: T[X];
@@ -7,22 +7,37 @@ export type RequireOne<T, K extends keyof T> = {
     [P in K]-?: T[P];
   };
 
-interface UserRepository {
+interface BaseRepository {
   disconnect: () => Promise<void>;
+}
+
+interface UserRepository extends BaseRepository {
   getUser: (userId: string) => Promise<User | null>;
   insertUser: (user: UserDTO) => Promise<User>;
   insertProfile: (user: ProfileDTO, userId: number) => Promise<Profile>;
+}
+
+interface LinkRepository extends BaseRepository {
+  getLink: (linkId: number) => Promise<Link | null>;
 }
 
 export type UserDTO = RequireOne<User, 'userIss' | 'email'>;
 
 export type ProfileDTO = RequireOne<Profile, 'userName'>;
 
-class PrismaDB implements UserRepository {
+class PrismaDB implements UserRepository, LinkRepository {
   prismaClient: PrismaClient;
 
   constructor() {
     this.prismaClient = new PrismaClient();
+  }
+
+  async getLink(linkId: number) {
+    return await this.prismaClient.link.findOne({
+      where: {
+        id: linkId,
+      },
+    });
   }
 
   async disconnect() {
