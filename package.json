@@ -10,6 +10,7 @@
     "prisma": "prisma studio"
   },
   "dependencies": {
+    "@geist-ui/react": "2.1.0-canary.0",
     "@hapi/iron": "6.0.0",
     "@magic-sdk/admin": "1.2.2",
     "@prisma/cli": "2.7.1",
